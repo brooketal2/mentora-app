@@ -248,18 +248,11 @@
             transition: all 0.3s ease;
             font-size: 0.9rem;
             font-family: inherit;
-            position: relative;
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .btn-success {
@@ -279,27 +272,6 @@
             padding: 15px;
             font-size: 1rem;
             margin-bottom: 20px;
-        }
-
-        .loading {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { left: -100%; }
-            100% { left: 100%; }
         }
 
         .checklist {
@@ -354,31 +326,14 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .chat-messages {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-
         .chat-message {
+            background: rgba(59, 130, 246, 0.3);
             padding: 15px 20px;
             border-radius: 15px;
             margin-bottom: 15px;
             font-size: 0.9rem;
             line-height: 1.5;
             border: 1px solid rgba(59, 130, 246, 0.4);
-        }
-
-        .chat-message.user {
-            background: rgba(139, 92, 246, 0.3);
-            border-color: rgba(139, 92, 246, 0.4);
-            margin-left: 20px;
-        }
-
-        .chat-message.assistant {
-            background: rgba(59, 130, 246, 0.3);
-            border-color: rgba(59, 130, 246, 0.4);
-            margin-right: 20px;
         }
 
         .chat-time {
@@ -431,63 +386,6 @@
             box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
-        .chat-send:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .api-config {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .api-input {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .api-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .api-status {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        .api-status.connected {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34D399;
-        }
-
-        .api-status.disconnected {
-            background: rgba(239, 68, 68, 0.2);
-            color: #F87171;
-        }
-
-        .generated-note {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
         @media (max-width: 768px) {
             .patient-info {
                 grid-template-columns: 1fr;
@@ -529,15 +427,8 @@
             <div class="subtitle">AI-Powered Orthodontic EHR</div>
             <div class="status">
                 <div class="status-dot"></div>
-                <span id="systemStatus">System Active</span>
+                System Active
             </div>
-        </div>
-
-        <!-- API Configuration -->
-        <div class="api-config">
-            <h3 style="margin-bottom: 15px; color: #FCD34D;">🔑 Azure OpenAI Configuration</h3>
-            <input type="password" id="apiKey" class="api-input" placeholder="Paste your Azure OpenAI API Key here">
-            <div id="apiStatus" class="api-status disconnected">API Key not configured</div>
         </div>
 
         <!-- Patient Summary Dashboard -->
@@ -632,8 +523,7 @@
                 <div class="card-icon">🤖</div>
                 <h2 class="card-title">Auto Note Generator</h2>
             </div>
-            <button class="btn generate-btn" id="generateBtn" onclick="generateNote()">🤖 Generate AI Note</button>
-            <div id="generatedNote"></div>
+            <button class="btn generate-btn" onclick="generateNote()">🤖 Generate AI Note</button>
         </div>
 
         <!-- Assistant Visit Checklist -->
@@ -675,109 +565,19 @@
             </div>
             <div class="card-subtitle">Ask questions about patient data, treatment plans, or get clinical guidance</div>
             
-            <div class="chat-messages" id="chatMessages">
-                <div class="chat-message assistant">
-                    Hi! I'm your clinical assistant powered by Azure OpenAI. I can answer questions about Albert's treatment, suggest next steps, or help with documentation. What would you like to know?
-                    <div class="chat-time" id="initialTime"></div>
-                </div>
+            <div class="chat-message">
+                Hi! I'm your clinical assistant. I can answer questions about Albert's treatment, suggest next steps, or help with documentation. What would you like to know?
+                <div class="chat-time">04:21 PM</div>
             </div>
             
             <div class="chat-input">
                 <input type="text" placeholder="Ask about treatment, next steps, or documentation..." id="chatInput">
-                <button class="chat-send" id="chatSendBtn" onclick="sendMessage()">Send</button>
+                <button class="chat-send" onclick="sendMessage()">Send</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Configuration
-        const AZURE_ENDPOINT = 'https://note-gen-ai.openai.azure.com/';
-        const API_VERSION = '2024-02-15-preview';
-        const DEPLOYMENT_NAME = 'gpt-4'; // You may need to adjust this based on your deployment
-
-        let apiKey = '';
-        let isApiConfigured = false;
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            updateTime();
-            
-            // API Key input handler
-            document.getElementById('apiKey').addEventListener('input', function(e) {
-                apiKey = e.target.value.trim();
-                updateApiStatus();
-            });
-        });
-
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            document.getElementById('initialTime').textContent = timeStr;
-        }
-
-        function updateApiStatus() {
-            const statusEl = document.getElementById('apiStatus');
-            const systemStatusEl = document.getElementById('systemStatus');
-            
-            if (apiKey && apiKey.length > 20) {
-                statusEl.textContent = 'API Key configured ✓';
-                statusEl.className = 'api-status connected';
-                systemStatusEl.textContent = 'System Active - AI Connected';
-                isApiConfigured = true;
-            } else {
-                statusEl.textContent = 'API Key not configured';
-                statusEl.className = 'api-status disconnected';
-                systemStatusEl.textContent = 'System Active - AI Disconnected';
-                isApiConfigured = false;
-            }
-        }
-
-        async function callAzureOpenAI(prompt, isNoteGeneration = false) {
-            if (!isApiConfigured) {
-                throw new Error('Please configure your Azure OpenAI API key first');
-            }
-
-            const systemMessage = isNoteGeneration 
-                ? "You are an AI clinical documentation assistant for orthodontic practices that generates concise, EHR-ready clinical notes. Focus on treatment progress, clinical findings, and next steps."
-                : "You are an AI clinical assistant for orthodontic practices. You help with patient care, treatment planning, and clinical documentation. Provide helpful, accurate, and professional responses about orthodontic treatment.";
-
-            const messages = [
-                {
-                    role: "system",
-                    content: systemMessage
-                },
-                {
-                    role: "user", 
-                    content: prompt
-                }
-            ];
-
-            try {
-                const response = await fetch(`${AZURE_ENDPOINT}openai/deployments/${DEPLOYMENT_NAME}/chat/completions?api-version=${API_VERSION}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'api-key': apiKey
-                    },
-                    body: JSON.stringify({
-                        messages: messages,
-                        max_tokens: 500,
-                        temperature: 0.7
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API call failed: ${response.status} ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                return data.choices[0].message.content;
-            } catch (error) {
-                console.error('Azure OpenAI API Error:', error);
-                throw error;
-            }
-        }
-
         function toggleCheck(element) {
             element.classList.toggle('checked');
             if (element.classList.contains('checked')) {
@@ -787,61 +587,8 @@
             }
         }
 
-        async function generateNote() {
-            const btn = document.getElementById('generateBtn');
-            const noteDiv = document.getElementById('generatedNote');
-            
-            if (!isApiConfigured) {
-                alert('Please configure your Azure OpenAI API key first!');
-                return;
-            }
-
-            // Show loading state
-            btn.disabled = true;
-            btn.classList.add('loading');
-            btn.textContent = '🤖 Generating Note...';
-            
-            try {
-                const prompt = `Generate a clinical note for Albert Zagg's orthodontic visit today based on this information:
-
-Patient: Albert Zagg, 14 years old, DOB: 1/1/2011
-Treatment: Upper + Lower Braces (0.022" MBT)
-Current Wire: 18x18 NiTi BIO (in for 7 weeks)
-Progress: 4/24 months (17% complete)
-Diagnosis: Skeletal Class II, Dental Class I
-Compliance: Good
-Current Elastics: Anterior box elastics (UL2-UR2 to LL2-LR2)
-
-Visit Plan:
-- Progress to 19x25 NiTi working wire
-- Continue anterior box elastics full time
-- Monitor root parallelism and bracket positioning
-- Evaluate need for additional IPR
-- Schedule next visit in 8 weeks
-
-Please generate a concise, professional clinical note suitable for EHR documentation.`;
-
-                const note = await callAzureOpenAI(prompt, true);
-                
-                noteDiv.innerHTML = `
-                    <div class="generated-note">
-                        <h4 style="margin-bottom: 10px; color: #10B981;">📝 Generated Clinical Note</h4>
-                        <div style="white-space: pre-line;">${note}</div>
-                    </div>
-                `;
-                
-            } catch (error) {
-                noteDiv.innerHTML = `
-                    <div style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; padding: 15px; margin-top: 15px;">
-                        <strong>Error generating note:</strong> ${error.message}
-                    </div>
-                `;
-            } finally {
-                // Reset button
-                btn.disabled = false;
-                btn.classList.remove('loading');
-                btn.textContent = '🤖 Generate AI Note';
-            }
+        function generateNote() {
+            alert('🤖 AI Note Generator\n\nGenerating clinical note based on:\n• Visit predictions\n• Treatment progress\n• Patient compliance\n• Current findings\n\nNext: Connect to your Azure Bot Service for full AI functionality!');
         }
 
         function predictionFollowed() {
@@ -852,37 +599,28 @@ Please generate a concise, professional clinical note suitable for EHR documenta
             alert('❌ Prediction Not Followed\n\nPlease document why predictions were not followed. This feedback improves our AI models.');
         }
 
-        async function sendMessage() {
+        function sendMessage() {
             const input = document.getElementById('chatInput');
-            const sendBtn = document.getElementById('chatSendBtn');
-            const messagesContainer = document.getElementById('chatMessages');
             const message = input.value.trim();
             
-            if (!message) return;
-            
-            if (!isApiConfigured) {
-                alert('Please configure your Azure OpenAI API key first!');
-                return;
+            if (message) {
+                alert('💬 Message: "' + message + '"\n\nNext step: Integrate with your Azure Bot Service to get AI responses!\n\nYour chatbot integration point is ready.');
+                input.value = '';
             }
+        }
 
-            // Disable input
-            sendBtn.disabled = true;
-            sendBtn.textContent = 'Sending...';
-            
-            // Add user message
-            const userMessage = document.createElement('div');
-            userMessage.className = 'chat-message user';
-            userMessage.innerHTML = `
-                ${message}
-                <div class="chat-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-            `;
-            messagesContainer.appendChild(userMessage);
-            
-            // Clear input
-            input.value = '';
-            
-            // Add loading message
-            const loadingMessage = document.createElement('div');
-            loadingMessage.className = 'chat-message assistant';
-            loadingMessage.innerHTML = '🤔 Thinking...';
-            messagesContainer.appendChild(loading
+        // Enter key support for chat
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Add some interactivity on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎉 Mentora AI-Powered Orthodontic EHR is ready!');
+            console.log('Next step: Integrate Azure Bot Service for full AI functionality');
+        });
+    </script>
+</body>
+</html>
