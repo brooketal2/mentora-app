@@ -12,29 +12,23 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6B46C1 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: white;
             padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .logo {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 10px;
         }
 
@@ -47,21 +41,17 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            font-weight: bold;
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .logo h1 {
             font-size: 2.5rem;
-            font-weight: 600;
-            letter-spacing: -1px;
+            font-weight: 300;
         }
 
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.9;
-            margin-bottom: 15px;
-            font-weight: 500;
+            margin-bottom: 10px;
         }
 
         .status {
@@ -69,31 +59,30 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .status-dot {
             width: 8px;
             height: 8px;
-            background: #10B981;
+            background: #4ade80;
             border-radius: 50%;
-            animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
         }
 
-        .dashboard-card {
+        .card {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 30px;
-            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .card-header {
@@ -101,525 +90,703 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 25px;
-        }
-
-        .card-icon {
-            font-size: 24px;
-            opacity: 0.8;
-        }
-
-        .card-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
         }
 
-        .card-subtitle {
-            font-size: 0.95rem;
-            opacity: 0.8;
-            margin-bottom: 20px;
+        .icon {
+            width: 24px;
+            height: 24px;
         }
 
         .patient-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
             margin-bottom: 25px;
         }
 
         .info-section h3 {
             font-size: 1.3rem;
             margin-bottom: 15px;
-            color: #FCD34D;
-            font-weight: 600;
         }
 
-        .info-item {
+        .patient-name {
+            font-size: 1.8rem;
+            font-weight: 700;
             margin-bottom: 8px;
-            font-size: 0.95rem;
         }
 
-        .info-label {
+        .patient-details {
             opacity: 0.8;
+            margin-bottom: 15px;
         }
 
-        .compliance-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(16, 185, 129, 0.2);
+        .compliance {
+            display: inline-block;
             padding: 6px 12px;
+            background: rgba(74, 222, 128, 0.2);
+            border: 1px solid #4ade80;
             border-radius: 20px;
-            font-size: 0.85rem;
-            margin-top: 8px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .compliance-dot {
-            width: 6px;
-            height: 6px;
-            background: #10B981;
-            border-radius: 50%;
+            font-size: 0.9rem;
+            color: #4ade80;
         }
 
         .diagnosis-tags {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
             flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         .tag {
-            padding: 8px 16px;
+            padding: 8px 15px;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.9rem;
         }
 
-        .tag-primary {
-            background: rgba(59, 130, 246, 0.3);
-            border: 1px solid rgba(59, 130, 246, 0.5);
+        .tag.skeletal {
+            background: rgba(148, 163, 184, 0.3);
+            border: 1px solid #94a3b8;
         }
 
-        .tag-success {
-            background: rgba(16, 185, 129, 0.3);
-            border: 1px solid rgba(16, 185, 129, 0.5);
-        }
-
-        .progress-section {
-            margin-top: 20px;
+        .tag.dental {
+            background: rgba(34, 197, 94, 0.3);
+            border: 1px solid #22c55e;
         }
 
         .progress-bar {
+            width: 100%;
+            height: 8px;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            height: 10px;
-            margin: 10px 0;
+            border-radius: 4px;
             overflow: hidden;
+            margin: 10px 0;
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #10B981, #34D399);
             height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
             width: 17%;
-            border-radius: 10px;
             transition: width 0.3s ease;
         }
 
         .visit-plan {
-            margin-bottom: 30px;
-        }
-
-        .plan-items {
-            list-style: none;
-            margin: 20px 0;
+            margin-top: 30px;
         }
 
         .plan-item {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 12px;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            padding: 8px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .plan-item:last-child {
+            border-bottom: none;
         }
 
         .plan-bullet {
             width: 8px;
             height: 8px;
-            background: #A78BFA;
+            background: #a855f7;
             border-radius: 50%;
             flex-shrink: 0;
-            margin-top: 6px;
         }
 
         .prediction-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 25px;
-            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 15px 20px;
             border: none;
-            font-weight: 500;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-family: inherit;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #10B981, #34D399);
-            color: white;
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+
+        .btn-success:hover {
+            background: rgba(34, 197, 94, 0.3);
+            transform: translateY(-2px);
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #EF4444, #F87171);
-            color: white;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
         }
 
-        .generate-btn {
-            background: linear-gradient(135deg, #06B6D4, #0891B2);
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
             color: white;
-            width: 100%;
-            padding: 15px;
-            font-size: 1rem;
-            margin-bottom: 20px;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .checklist {
             margin-top: 20px;
         }
 
+        .checklist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle.active {
+            background: #3b82f6;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle.active .toggle-slider {
+            transform: translateX(26px);
+        }
+
         .checklist-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: background 0.2s ease;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .checklist-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding-left: 8px;
-            padding-right: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .checklist-item.completed {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
         .checkbox {
             width: 20px;
             height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.5);
             border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .checkbox:hover {
-            border-color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
         }
 
         .checkbox.checked {
-            background: #10B981;
-            border-color: #10B981;
-            color: white;
+            background: #22c55e;
+            border-color: #22c55e;
         }
 
-        .chatbot-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .chat-section {
+            grid-column: 1 / -1;
         }
 
-        .chat-message {
-            background: rgba(59, 130, 246, 0.3);
-            padding: 15px 20px;
-            border-radius: 15px;
+        .chat-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             margin-bottom: 15px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            border: 1px solid rgba(59, 130, 246, 0.4);
         }
 
-        .chat-time {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-top: 8px;
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+
+        .message.bot {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
         }
 
         .chat-input {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .chat-input input {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
+            padding: 15px;
             background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
             color: white;
-            font-size: 0.9rem;
-            font-family: inherit;
+            font-size: 1rem;
         }
 
-        .chat-input input::placeholder {
+        .chat-input::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
 
-        .chat-input input:focus {
+        .chat-input:focus {
             outline: none;
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.15);
+            border-color: #3b82f6;
         }
 
-        .chat-send {
-            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
-            color: white;
+        .send-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
             border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
-            font-family: inherit;
-            transition: all 0.2s ease;
+            transition: transform 0.2s;
         }
 
-        .chat-send:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .timestamp {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 5px;
         }
 
         @media (max-width: 768px) {
-            .patient-info {
+            .container {
                 grid-template-columns: 1fr;
-                gap: 20px;
             }
             
-            .prediction-buttons {
-                flex-direction: column;
+            .patient-info {
+                grid-template-columns: 1fr;
             }
-
-            .chat-input {
-                flex-direction: column;
-            }
-
-            .logo h1 {
-                font-size: 2rem;
-            }
-
-            .container {
-                padding: 0 10px;
-            }
-        }
-
-        .section-title {
-            color: #FCD34D;
-            margin-bottom: 15px;
-            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <div class="logo-icon">🧠</div>
-                <h1>Mentora</h1>
-            </div>
-            <div class="subtitle">AI-Powered Orthodontic EHR</div>
-            <div class="status">
-                <div class="status-dot"></div>
-                System Active
-            </div>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🦷</div>
+            <h1>Mentora</h1>
         </div>
+        <div class="subtitle">AI-Powered Orthodontic EHR</div>
+        <div class="status">
+            <div class="status-dot"></div>
+            System Active
+        </div>
+    </div>
 
-        <!-- Patient Summary Dashboard -->
-        <div class="dashboard-card">
+    <div class="container">
+        <div class="card">
             <div class="card-header">
-                <div class="card-icon">👤</div>
-                <h2 class="card-title">Patient Summary Dashboard</h2>
+                <span class="icon">👤</span>
+                Patient Summary Dashboard
             </div>
-            <div class="card-subtitle">Comprehensive treatment overview and progress tracking</div>
-            
+            <div class="subtitle" style="margin-bottom: 20px; opacity: 0.8;">
+                Comprehensive treatment overview and progress tracking
+            </div>
+
             <div class="patient-info">
                 <div class="info-section">
-                    <h3>Albert Zagg</h3>
-                    <div class="info-item">
-                        <span class="info-label">Age:</span> 14 • DOB: 1/1/2011
-                    </div>
-                    <div class="compliance-badge">
-                        <div class="compliance-dot"></div>
-                        Good Compliance
-                    </div>
+                    <div class="patient-name">Albert Zagg</div>
+                    <div class="patient-details">Age: 14 • DOB: 1/1/2011</div>
+                    <div class="compliance">✓ Good Compliance</div>
                     
-                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: white;">Diagnosis</h4>
+                    <h3 style="margin-top: 20px;">Diagnosis</h3>
                     <div class="diagnosis-tags">
-                        <div class="tag tag-primary">Skeletal Class II</div>
-                        <div class="tag tag-success">Dental Class I</div>
+                        <span class="tag skeletal">Skeletal Class II</span>
+                        <span class="tag dental">Dental Class I</span>
                     </div>
                 </div>
-                
+
                 <div class="info-section">
                     <h3>Treatment Type</h3>
-                    <div class="info-item">Upper + Lower Braces (0.022" MBT)</div>
+                    <div style="margin-bottom: 15px;">Upper + Lower Braces (0.022" MBT)</div>
                     
-                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: white;">Current Wire</h4>
-                    <div class="info-item">18x18 NiTi BIO</div>
-                    <div class="info-item" style="opacity: 0.8;">In for 7 weeks</div>
+                    <h3>Current Wire</h3>
+                    <div style="margin-bottom: 5px;"><strong>18x18 NiTi BIO</strong></div>
+                    <div style="opacity: 0.8; font-size: 0.9rem;">in for 7 weeks</div>
                 </div>
-                
+
                 <div class="info-section">
                     <h3>Treatment Progress</h3>
-                    <div class="info-item">4/24 months</div>
+                    <div style="margin-bottom: 5px;"><strong>4/24 months</strong></div>
                     <div class="progress-bar">
                         <div class="progress-fill"></div>
                     </div>
-                    <div class="info-item" style="opacity: 0.8;">17% Complete</div>
+                    <div style="opacity: 0.8; font-size: 0.9rem;">17% Complete</div>
                     
-                    <h4 style="margin-top: 20px; margin-bottom: 10px; color: white;">Elastic Pattern</h4>
-                    <div class="info-item">Anterior box elastics (UL2-UR2 to LL2-LR2)</div>
+                    <h3 style="margin-top: 15px;">Elastic Pattern</h3>
+                    <div style="font-size: 0.9rem;">Anterior box elastics (UL2-UR2 to LL2-LR2)</div>
                 </div>
             </div>
         </div>
 
-        <!-- Visit Prediction & Planning -->
-        <div class="dashboard-card visit-plan">
+        <div class="card">
             <div class="card-header">
-                <div class="card-icon">🎯</div>
-                <h2 class="card-title">Today's Visit Prediction & Planning</h2>
+                <span class="icon">🎯</span>
+                Today's Visit Prediction & Planning
             </div>
-            
-            <h3 class="section-title">AI-Suggested Visit Plan</h3>
-            <ul class="plan-items">
-                <li class="plan-item">
+
+            <div class="visit-plan">
+                <h3 style="margin-bottom: 20px;">AI-Suggested Visit Plan</h3>
+                <div class="plan-item">
                     <div class="plan-bullet"></div>
-                    <span>Progress to 19x25 NiTi working wire</span>
-                </li>
-                <li class="plan-item">
+                    <div>Progress to 19x25 NiTi working wire</div>
+                </div>
+                <div class="plan-item">
                     <div class="plan-bullet"></div>
-                    <span>Continue anterior box elastics full time</span>
-                </li>
-                <li class="plan-item">
+                    <div>Continue anterior box elastics full time</div>
+                </div>
+                <div class="plan-item">
                     <div class="plan-bullet"></div>
-                    <span>Monitor root parallelism and bracket positioning</span>
-                </li>
-                <li class="plan-item">
+                    <div>Monitor root parallelism and bracket positioning</div>
+                </div>
+                <div class="plan-item">
                     <div class="plan-bullet"></div>
-                    <span>Evaluate need for additional IPR</span>
-                </li>
-                <li class="plan-item">
+                    <div>Evaluate need for additional IPR</div>
+                </div>
+                <div class="plan-item">
                     <div class="plan-bullet"></div>
-                    <span>Schedule next visit in 8 weeks</span>
-                </li>
-            </ul>
-            
+                    <div>Schedule next visit in 8 weeks</div>
+                </div>
+            </div>
+
             <div class="prediction-buttons">
-                <button class="btn btn-success" onclick="predictionFollowed()">✓ Prediction Followed</button>
-                <button class="btn btn-danger" onclick="predictionNotFollowed()">✗ Prediction Not Followed</button>
+                <button class="btn btn-success" onclick="markPrediction(true)">
+                    ✓ Prediction Followed
+                </button>
+                <button class="btn btn-danger" onclick="markPrediction(false)">
+                    ✗ Prediction Not Followed
+                </button>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="margin-bottom: 20px;">🧠 Auto Note Generator</h3>
+                <button class="btn btn-primary" onclick="generateNote()" style="width: 100%;" id="generateBtn">
+                    🧠 Generate AI Note
+                </button>
             </div>
         </div>
 
-        <!-- Auto Note Generator -->
-        <div class="dashboard-card">
-            <div class="card-header">
-                <div class="card-icon">🤖</div>
-                <h2 class="card-title">Auto Note Generator</h2>
+        <div class="card">
+            <div class="checklist-header">
+                <h3>✓ Assistant Visit Checklist</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 0.9rem;">Show Incomplete Only</span>
+                    <div class="toggle" onclick="toggleIncompleteOnly()" id="incompleteToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
             </div>
-            <button class="btn generate-btn" onclick="generateNote()">🤖 Generate AI Note</button>
-        </div>
 
-        <!-- Assistant Visit Checklist -->
-        <div class="dashboard-card">
-            <div class="card-header">
-                <div class="card-icon">✅</div>
-                <h2 class="card-title">Assistant Visit Checklist</h2>
-            </div>
-            
             <div class="checklist">
-                <div class="checklist-item">
-                    <div class="checkbox" onclick="toggleCheck(this)"></div>
-                    <span>Prepare 19x25 SS archwire</span>
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>Prepare 19x25 SS archwire</div>
                 </div>
-                <div class="checklist-item">
-                    <div class="checkbox checked" onclick="toggleCheck(this)">✓</div>
-                    <span>Check elastic compliance</span>
+                <div class="checklist-item completed" onclick="toggleChecklistItem(this)" data-completed="true">
+                    <div class="checkbox checked">✓</div>
+                    <div>Check elastic compliance</div>
                 </div>
-                <div class="checklist-item">
-                    <div class="checkbox" onclick="toggleCheck(this)"></div>
-                    <span>Evaluate pano for root parallelism</span>
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>Evaluate pano for root parallelism</div>
                 </div>
-                <div class="checklist-item">
-                    <div class="checkbox" onclick="toggleCheck(this)"></div>
-                    <span>IPR assessment if needed</span>
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>IPR assessment if needed</div>
                 </div>
-                <div class="checklist-item">
-                    <div class="checkbox" onclick="toggleCheck(this)"></div>
-                    <span>Schedule next appointment</span>
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>Schedule next appointment</div>
                 </div>
             </div>
         </div>
 
-        <!-- Assistant Chatbot -->
-        <div class="dashboard-card chatbot-section">
+        <div class="card chat-section">
             <div class="card-header">
-                <div class="card-icon">🤖</div>
-                <h2 class="card-title">Assistant Chatbot</h2>
+                <span class="icon">🤖</span>
+                Assistant Chatbot
             </div>
-            <div class="card-subtitle">Ask questions about patient data, treatment plans, or get clinical guidance</div>
-            
-            <div class="chat-message">
-                Hi! I'm your clinical assistant. I can answer questions about Albert's treatment, suggest next steps, or help with documentation. What would you like to know?
-                <div class="chat-time">04:21 PM</div>
+            <div style="margin-bottom: 20px; opacity: 0.8;">
+                Ask questions about patient data, treatment plans, or get clinical guidance
             </div>
-            
-            <div class="chat-input">
-                <input type="text" placeholder="Ask about treatment, next steps, or documentation..." id="chatInput">
-                <button class="chat-send" onclick="sendMessage()">Send</button>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        Hi! I'm your clinical assistant. I can answer questions about Albert's treatment, suggest next steps, or help with documentation. What would you like to know?
+                        <div class="timestamp">07:08 PM</div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <input 
+                        type="text" 
+                        class="chat-input" 
+                        placeholder="Ask about treatment plans, patient progress, or clinical guidance..."
+                        id="chatInput"
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button class="send-btn" onclick="sendMessage()" id="sendBtn">Send</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        function toggleCheck(element) {
-            element.classList.toggle('checked');
-            if (element.classList.contains('checked')) {
-                element.innerHTML = '✓';
-            } else {
-                element.innerHTML = '';
+        // Static Web App API Configuration - No API key needed in frontend!
+        const API_BASE_URL = '/api';
+
+        // Chat functionality - Now calls secure Azure Function
+        async function callSecureAPI(message, action = 'chat') {
+            const url = `${API_BASE_URL}/chat`;
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    action: action
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API call failed: ${response.status}`);
             }
+
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'API call failed');
+            }
+            
+            return data.response;
         }
 
-        function generateNote() {
-            alert('🤖 AI Note Generator\n\nGenerating clinical note based on:\n• Visit predictions\n• Treatment progress\n• Patient compliance\n• Current findings\n\nNext: Connect to your Azure Bot Service for full AI functionality!');
-        }
-
-        function predictionFollowed() {
-            alert('✅ Prediction Followed\n\nRecording that AI predictions were followed. This data will help improve future predictions.');
-        }
-
-        function predictionNotFollowed() {
-            alert('❌ Prediction Not Followed\n\nPlease document why predictions were not followed. This feedback improves our AI models.');
-        }
-
-        function sendMessage() {
+        async function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             
-            if (message) {
-                alert('💬 Message: "' + message + '"\n\nNext step: Integrate with your Azure Bot Service to get AI responses!\n\nYour chatbot integration point is ready.');
-                input.value = '';
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('chatMessages');
+            const sendBtn = document.getElementById('sendBtn');
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.innerHTML = `
+                ${message}
+                <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+            `;
+            messagesContainer.appendChild(userMessage);
+            
+            // Clear input and disable button
+            input.value = '';
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+            sendBtn.classList.add('loading');
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            try {
+                // Call secure Azure Function
+                const response = await callSecureAPI(message);
+                
+                // Add bot response
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.innerHTML = `
+                    ${response}
+                    <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+                messagesContainer.appendChild(botMessage);
+                
+            } catch (error) {
+                console.error('Error calling secure API:', error);
+                
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message bot';
+                errorMessage.innerHTML = `
+                    I apologize, but I'm having trouble connecting to the AI service right now. Please try again in a moment.
+                    <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+                messagesContainer.appendChild(errorMessage);
+            } finally {
+                // Re-enable button
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+                sendBtn.classList.remove('loading');
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
         }
 
-        // Enter key support for chat
-        document.getElementById('chatInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
                 sendMessage();
             }
-        });
+        }
 
-        // Add some interactivity on load
+        // Generate AI Note functionality
+        async function generateNote() {
+            const btn = document.getElementById('generateBtn');
+            const originalText = btn.textContent;
+            
+            btn.disabled = true;
+            btn.textContent = 'Generating AI Note...';
+            btn.classList.add('loading');
+            
+            try {
+                const response = await callSecureAPI('', 'generateNote');
+                
+                // Display the generated note (you could show this in a modal or new section)
+                alert(`Generated Clinical Note:\n\n${response}`);
+                
+            } catch (error) {
+                console.error('Error generating note:', error);
+                alert('Sorry, there was an error generating the note. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                btn.classList.remove('loading');
+            }
+        }
+
+        // Interactive UI functions
+        function markPrediction(followed) {
+            const message = followed ? 
+                'Prediction marked as FOLLOWED ✓' : 
+                'Prediction marked as NOT FOLLOWED ✗';
+            
+            // You could save this to a database or update the UI
+            console.log(message);
+            
+            // Show feedback
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${followed ? 'rgba(34, 197, 94, 0.9)' : 'rgba(239, 68, 68, 0.9)'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 1000;
+                font-weight: 600;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function toggleChecklistItem(item) {
+            const checkbox = item.querySelector('.checkbox');
+            const isCompleted = item.dataset.completed === 'true';
+            
+            if (isCompleted) {
+                item.classList.remove('completed');
+                checkbox.classList.remove('checked');
+                checkbox.textContent = '';
+                item.dataset.completed = 'false';
+            } else {
+                item.classList.add('completed');
+                checkbox.classList.add('checked');
+                checkbox.textContent = '✓';
+                item.dataset.completed = 'true';
+            }
+        }
+
+        function toggleIncompleteOnly() {
+            const toggle = document.getElementById('incompleteToggle');
+            toggle.classList.toggle('active');
+            
+            const checklistItems = document.querySelectorAll('.checklist-item');
+            const showIncompleteOnly = toggle.classList.contains('active');
+            
+            checklistItems.forEach(item => {
+                if (showIncompleteOnly) {
+                    item.style.display = item.dataset.completed === 'true' ? 'none' : 'flex';
+                } else {
+                    item.style.display = 'flex';
+                }
+            });
+        }
+
+        // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎉 Mentora AI-Powered Orthodontic EHR is ready!');
-            console.log('Next step: Integrate Azure Bot Service for full AI functionality');
+            console.log('Mentora EHR System Initialized');
+            console.log('Secure Azure API Integration Active');
         });
     </script>
 </body>
