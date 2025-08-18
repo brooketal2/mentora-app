@@ -4,7 +4,7 @@
   "description": "Mentora EHR API functions",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'No build step required'",
+  "build": "node index.js",
     "start": "func start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
