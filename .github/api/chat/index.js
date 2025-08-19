@@ -1,131 +1,131 @@
+// api/chat/index.js - Secure Azure Function for handling patient data
 const { app } = require('@azure/functions');
 
 app.http('chat', {
     methods: ['GET', 'POST'],
     authLevel: 'anonymous',
-    route: 'chat',
     handler: async (request, context) => {
-        context.log('Processing chat request');
+        context.log(`Http function processed request for url "${request.url}"`);
 
-        // CORS headers
-        const headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        // Set CORS headers for your domain
+        const corsHeaders = {
+            'Access-Control-Allow-Origin': '*', // In production, set this to your specific domain
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
             'Content-Type': 'application/json'
         };
 
-        // Handle OPTIONS request for CORS
+        // Handle preflight requests
         if (request.method === 'OPTIONS') {
             return {
                 status: 200,
-                headers: headers
+                headers: corsHeaders
             };
         }
 
         try {
-            // Get request body
-            let requestData = {};
-            if (request.method === 'POST') {
-                const requestText = await request.text();
-                requestData = JSON.parse(requestText);
+            // Get configuration from environment variables (secure)
+            const AZURE_OPENAI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
+            const AZURE_OPENAI_KEY = process.env.AZURE_OPENAI_KEY;
+            const DEPLOYMENT_NAME = process.env.DEPLOYMENT_NAME || 'note-gen-agent';
+
+            // Validate configuration
+            if (!AZURE_OPENAI_ENDPOINT || !AZURE_OPENAI_KEY) {
+                return {
+                    status: 500,
+                    headers: corsHeaders,
+                    body: JSON.stringify({
+                        success: false,
+                        error: 'Azure OpenAI configuration missing. Please check environment variables.'
+                    })
+                };
             }
 
-            const { message, action } = requestData;
+            // Parse request body
+            const requestBody = await request.json();
+            const { message, action, patientData } = requestBody;
 
-            // Get environment variables
-            const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
-            const apiKey = process.env.AZURE_OPENAI_KEY;
-            const deployment = process.env.AZURE_OPENAI_DEPLOYMENT;
+            // Log for debugging (remove patient data in production)
+            context.log('Request received:', { action, messageLength: message?.length });
 
-            if (!endpoint || !apiKey || !deployment) {
-                throw new Error('Missing Azure OpenAI configuration. Please check environment variables.');
-            }
+            // Build system message based on action
+            let systemMessage = "You are an AI clinical documentation assistant for orthodontic practices.";
+            let userMessage = message;
 
-            // Patient context
-            const patientContext = `
-            Patient: Albert Zagg
-            Age: 14, DOB: 1/1/2011
-            Treatment: Upper + Lower Braces (0.022" MBT)
-            Current Wire: 18x18 NiTi BIO (in for 7 weeks)
-            Progress: 4/24 months (17% complete)
-            Diagnosis: Skeletal Class II, Dental Class I
-            Compliance: Good
-            Current Elastics: Anterior box elastics (UL2-UR2 to LL2-LR2)
-            `;
-
-            // Prepare messages for OpenAI
-            let messages = [];
-            
             if (action === 'generateNote') {
-                messages = [
-                    {
-                        role: 'system',
-                        content: `You are a clinical AI assistant for orthodontic practice. Generate professional clinical notes for EHR documentation. Patient info:\n\n${patientContext}`
-                    },
-                    {
-                        role: 'user',
-                        content: 'Generate a comprehensive clinical note for today\'s orthodontic visit.'
-                    }
-                ];
-            } else {
-                messages = [
-                    {
-                        role: 'system',
-                        content: `You are a clinical AI assistant for orthodontic practice. Patient info:\n\n${patientContext}\n\nProvide helpful, professional responses about orthodontic treatment.`
-                    },
-                    {
-                        role: 'user',
-                        content: message || 'Hello, how can you help me today?'
-                    }
-                ];
+                systemMessage = `You are an AI clinical documentation assistant for orthodontic practices. 
+                Generate a comprehensive clinical note for today's orthodontic visit. Include:
+                - Current treatment status and progress
+                - Wire changes and adjustments made
+                - Elastic compliance assessment
+                - Clinical observations
+                - Next steps and recommendations
+                - Next appointment scheduling
+                
+                Format as a professional clinical note suitable for EHR documentation.`;
+                
+                userMessage = patientData ? 
+                    `Generate a clinical note for ${patientData.name}'s visit today. Current treatment: ${patientData.treatment || 'orthodontic treatment'}` :
+                    "Generate a clinical note for today's orthodontic visit.";
             }
 
-            // Call Azure OpenAI
-            const openaiUrl = `${endpoint}openai/deployments/${deployment}/chat/completions?api-version=2024-02-15-preview`;
+            // Call Azure OpenAI API
+            const openaiUrl = `${AZURE_OPENAI_ENDPOINT}/openai/deployments/${DEPLOYMENT_NAME}/chat/completions?api-version=2024-02-15-preview`;
             
             const openaiResponse = await fetch(openaiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'api-key': apiKey
+                    'api-key': AZURE_OPENAI_KEY
                 },
                 body: JSON.stringify({
-                    messages: messages,
-                    max_tokens: action === 'generateNote' ? 800 : 500,
+                    messages: [
+                        { role: "system", content: systemMessage },
+                        { role: "user", content: userMessage }
+                    ],
+                    max_tokens: 1000,
                     temperature: 0.7
                 })
             });
 
             if (!openaiResponse.ok) {
                 const errorText = await openaiResponse.text();
-                context.log.error('OpenAI API error:', errorText);
-                throw new Error(`OpenAI API error: ${openaiResponse.status}`);
+                context.log('Azure OpenAI API Error:', errorText);
+                
+                return {
+                    status: 500,
+                    headers: corsHeaders,
+                    body: JSON.stringify({
+                        success: false,
+                        error: `Azure OpenAI API error: ${openaiResponse.status}`
+                    })
+                };
             }
 
-            const data = await openaiResponse.json();
-            const aiResponse = data.choices[0].message.content;
+            const openaiData = await openaiResponse.json();
+            const aiResponse = openaiData.choices[0].message.content;
+
+            // Log successful response (without patient data)
+            context.log('AI response generated successfully');
 
             return {
                 status: 200,
-                headers: headers,
+                headers: corsHeaders,
                 body: JSON.stringify({
                     success: true,
-                    response: aiResponse,
-                    timestamp: new Date().toISOString()
+                    response: aiResponse
                 })
             };
 
         } catch (error) {
-            context.log.error('Error in chat function:', error);
+            context.log('Error in chat function:', error);
             
             return {
                 status: 500,
-                headers: headers,
+                headers: corsHeaders,
                 body: JSON.stringify({
                     success: false,
-                    error: error.message || 'Internal server error',
-                    timestamp: new Date().toISOString()
+                    error: 'Internal server error'
                 })
             };
         }
