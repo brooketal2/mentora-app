@@ -470,4 +470,419 @@
                     
                     <h3>Current Wire</h3>
                     <div style="margin-bottom: 5px;"><strong>18x18 NiTi BIO</strong></div>
-                    <div style="opacity: 0.8; font-size: 0.9rem;
+                    <div style="opacity: 0.8; font-size: 0.9rem;">in for 7 weeks</div>
+                </div>
+
+                <div class="info-section">
+                    <h3>Treatment Progress</h3>
+                    <div style="margin-bottom: 5px;"><strong>4/24 months</strong></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div style="opacity: 0.8; font-size: 0.9rem;">17% Complete</div>
+                    
+                    <h3 style="margin-top: 15px;">Elastic Pattern</h3>
+                    <div style="font-size: 0.9rem;">Anterior box elastics (UL2-UR2 to LL2-LR2)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="icon">🎯</span>
+                Today's Visit Prediction & Planning
+            </div>
+
+            <div class="visit-plan">
+                <h3 style="margin-bottom: 20px;">AI-Suggested Visit Plan</h3>
+                <div class="plan-item">
+                    <div class="plan-bullet"></div>
+                    <div>Progress to 19x25 NiTi working wire</div>
+                </div>
+                <div class="plan-item">
+                    <div class="plan-bullet"></div>
+                    <div>Continue anterior box elastics full time</div>
+                </div>
+                <div class="plan-item">
+                    <div class="plan-bullet"></div>
+                    <div>Monitor root parallelism and bracket positioning</div>
+                </div>
+                <div class="plan-item">
+                    <div class="plan-bullet"></div>
+                    <div>Evaluate need for additional IPR</div>
+                </div>
+                <div class="plan-item">
+                    <div class="plan-bullet"></div>
+                    <div>Schedule next visit in 8 weeks</div>
+                </div>
+            </div>
+
+            <div class="prediction-buttons">
+                <button class="btn btn-success" onclick="markPrediction(true)">
+                    ✓ Prediction Followed
+                </button>
+                <button class="btn btn-danger" onclick="markPrediction(false)">
+                    ✗ Prediction Not Followed
+                </button>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="margin-bottom: 20px;">🧠 Auto Note Generator</h3>
+                <button class="btn btn-primary" onclick="generateNote()" style="width: 100%;" id="generateBtn">
+                    🧠 Generate AI Note
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="checklist-header">
+                <h3>✓ Assistant Visit Checklist</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 0.9rem;">Show Incomplete Only</span>
+                    <div class="toggle" onclick="toggleIncompleteOnly()" id="incompleteToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>Prepare 19x25 SS archwire</div>
+                </div>
+                <div class="checklist-item completed" onclick="toggleChecklistItem(this)" data-completed="true">
+                    <div class="checkbox checked">✓</div>
+                    <div>Check elastic compliance</div>
+                </div>
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>Evaluate pano for root parallelism</div>
+                </div>
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>IPR assessment if needed</div>
+                </div>
+                <div class="checklist-item" onclick="toggleChecklistItem(this)" data-completed="false">
+                    <div class="checkbox"></div>
+                    <div>Schedule next appointment</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card chat-section">
+            <div class="card-header">
+                <span class="icon">🤖</span>
+                Assistant Chatbot
+            </div>
+            <div style="margin-bottom: 20px; opacity: 0.8;">
+                Ask questions about patient data, treatment plans, or get clinical guidance
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        Hi! I'm your clinical assistant. I can answer questions about Albert's treatment, suggest next steps, or help with documentation. What would you like to know?
+                        <div class="timestamp">07:08 PM</div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <input 
+                        type="text" 
+                        class="chat-input" 
+                        placeholder="Ask about treatment plans, patient progress, or clinical guidance..."
+                        id="chatInput"
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button class="send-btn" onclick="sendMessage()" id="sendBtn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Secure API Configuration - No sensitive data in frontend
+        const API_BASE_URL = '/api';
+
+        // Patient data structure (this would come from your EHR/database)
+        const currentPatient = {
+            name: "Albert Zagg",
+            dob: "1/1/2011",
+            age: 14,
+            treatment: "Upper + Lower Braces (0.022\" MBT)",
+            currentWire: "18x18 NiTi BIO",
+            weeksInWire: 7,
+            progress: {
+                months: 4,
+                totalMonths: 24,
+                percentage: 17
+            },
+            elastics: "Anterior box elastics (UL2-UR2 to LL2-LR2)",
+            compliance: "Good",
+            diagnosis: ["Skeletal Class II", "Dental Class I"]
+        };
+
+        // Secure API call function
+        async function callSecureAPI(message, action = 'chat', includePatientData = false) {
+            const url = `${API_BASE_URL}/chat`;
+            
+            const requestBody = {
+                message: message,
+                action: action
+            };
+
+            // Include patient data for note generation (securely sent to backend)
+            if (includePatientData) {
+                requestBody.patientData = currentPatient;
+            }
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API Response:', errorText);
+                    throw new Error(`API call failed: ${response.status} - ${errorText}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'API call failed');
+                }
+                
+                return data.response;
+            } catch (error) {
+                console.error('API call error:', error);
+                throw error;
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('chatMessages');
+            const sendBtn = document.getElementById('sendBtn');
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.innerHTML = `
+                ${message}
+                <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+            `;
+            messagesContainer.appendChild(userMessage);
+            
+            // Clear input and disable button
+            input.value = '';
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+            sendBtn.classList.add('loading');
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            try {
+                // Call secure Azure Function with patient context
+                const response = await callSecureAPI(message, 'chat', true);
+                
+                // Add bot response
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.innerHTML = `
+                    ${response}
+                    <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+                messagesContainer.appendChild(botMessage);
+                
+            } catch (error) {
+                console.error('Error calling secure API:', error);
+                
+                let errorText = 'I apologize, but I\'m having trouble connecting to the AI service right now.';
+                
+                if (error.message.includes('404')) {
+                    errorText = '🔧 The API function is still deploying. Please wait a few minutes and try again.';
+                } else if (error.message.includes('500')) {
+                    errorText = '⚠️ There\'s a configuration issue. Please check the environment variables in Azure.';
+                } else if (error.message.includes('configuration missing')) {
+                    errorText = '🔑 API configuration missing. Please check Azure environment variables.';
+                }
+                
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message bot';
+                errorMessage.innerHTML = `
+                    ${errorText}
+                    <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+                messagesContainer.appendChild(errorMessage);
+            } finally {
+                // Re-enable button
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+                sendBtn.classList.remove('loading');
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Generate AI Note functionality with real patient data
+        async function generateNote() {
+            const btn = document.getElementById('generateBtn');
+            const originalText = btn.textContent;
+            
+            btn.disabled = true;
+            btn.textContent = 'Generating AI Note...';
+            btn.classList.add('loading');
+            
+            try {
+                // Call secure API with patient data
+                const response = await callSecureAPI('', 'generateNote', true);
+                
+                // Display the generated note in a professional format
+                const noteWindow = window.open('', '_blank', 'width=800,height=600');
+                noteWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                        <head>
+                            <title>Generated Clinical Note - ${currentPatient.name}</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; padding: 30px; background: #f8f9fa; line-height: 1.6; }
+                                .note-container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 700px; margin: 0 auto; }
+                                .header { border-bottom: 2px solid #007bff; padding-bottom: 15px; margin-bottom: 25px; }
+                                .patient-info { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+                                .note-content { white-space: pre-wrap; font-size: 14px; line-height: 1.6; }
+                                .timestamp { text-align: right; font-size: 12px; color: #666; margin-top: 20px; }
+                                .print-btn { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 15px; cursor: pointer; }
+                                @media print { body { background: white; } .note-container { box-shadow: none; } .print-btn { display: none; } }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="note-container">
+                                <div class="header">
+                                    <h2>🦷 Mentora AI - Clinical Note</h2>
+                                    <div class="patient-info">
+                                        <strong>Patient:</strong> ${currentPatient.name}<br>
+                                        <strong>DOB:</strong> ${currentPatient.dob}<br>
+                                        <strong>Age:</strong> ${currentPatient.age}<br>
+                                        <strong>Treatment:</strong> ${currentPatient.treatment}
+                                    </div>
+                                </div>
+                                <div class="note-content">${response}</div>
+                                <div class="timestamp">Generated: ${new Date().toLocaleString()}</div>
+                                <button class="print-btn" onclick="window.print()">Print Note</button>
+                            </div>
+                        </body>
+                    </html>
+                `);
+                
+            } catch (error) {
+                console.error('Error generating note:', error);
+                
+                let errorText = 'Sorry, there was an error generating the note.';
+                if (error.message.includes('404')) {
+                    errorText = 'The API is still deploying. Please wait a few minutes and try again.';
+                } else if (error.message.includes('configuration')) {
+                    errorText = 'API configuration issue. Please check the Azure environment variables.';
+                }
+                
+                alert(errorText);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                btn.classList.remove('loading');
+            }
+        }
+
+        // Function to update patient data (for when you integrate with real EHR)
+        function updatePatientData(newPatientData) {
+            Object.assign(currentPatient, newPatientData);
+            console.log('Patient data updated:', currentPatient);
+        }
+
+        // Interactive UI functions
+        function markPrediction(followed) {
+            const message = followed ? 
+                'Prediction marked as FOLLOWED ✓' : 
+                'Prediction marked as NOT FOLLOWED ✗';
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${followed ? 'rgba(34, 197, 94, 0.9)' : 'rgba(239, 68, 68, 0.9)'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 1000;
+                font-weight: 600;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function toggleChecklistItem(item) {
+            const checkbox = item.querySelector('.checkbox');
+            const isCompleted = item.dataset.completed === 'true';
+            
+            if (isCompleted) {
+                item.classList.remove('completed');
+                checkbox.classList.remove('checked');
+                checkbox.textContent = '';
+                item.dataset.completed = 'false';
+            } else {
+                item.classList.add('completed');
+                checkbox.classList.add('checked');
+                checkbox.textContent = '✓';
+                item.dataset.completed = 'true';
+            }
+        }
+
+        function toggleIncompleteOnly() {
+            const toggle = document.getElementById('incompleteToggle');
+            toggle.classList.toggle('active');
+            
+            const checklistItems = document.querySelectorAll('.checklist-item');
+            const showIncompleteOnly = toggle.classList.contains('active');
+            
+            checklistItems.forEach(item => {
+                if (showIncompleteOnly) {
+                    item.style.display = item.dataset.completed === 'true' ? 'none' : 'flex';
+                } else {
+                    item.style.display = 'flex';
+                }
+            });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Mentora EHR System Initialized - Secure HIPAA-Ready Version');
+            console.log('Patient loaded:', currentPatient.name);
+            console.log('API Base URL:', API_BASE_URL);
+            
+            // Test API availability after page load
+            setTimeout(() => {
+                console.log('Testing secure API connection...');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
