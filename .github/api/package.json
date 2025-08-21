@@ -1,0 +1,25 @@
+{
+  "name": "mentora-api",
+  "version": "1.0.0",
+  "description": "Secure HIPAA-ready API functions for Mentora EHR",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.5.0"
+  },
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "azure-functions",
+    "healthcare",
+    "openai",
+    "hipaa"
+  ],
+  "author": "Mentora EHR",
+  "license": "UNLICENSED",
+  "private": true
+}
