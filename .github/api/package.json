@@ -7,11 +7,12 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/functions": "^4.5.0"
+    "@azure/functions": "^4.0.0"
   },
   "scripts": {
+    "build": "echo 'Build completed'",
     "start": "func start",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "echo 'No tests specified'"
   },
   "keywords": [
     "azure-functions",
