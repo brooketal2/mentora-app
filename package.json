@@ -1,8 +1,0 @@
-{
-  "name": "mentora-mvp",
-  "version": "1.0.0",
-  "description": "Mentora AI Agent MVP Demo",
-  "scripts": {
-    "build": "echo 'Static HTML build complete'"
-  }
-}
